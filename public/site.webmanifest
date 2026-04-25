@@ -1,0 +1,19 @@
+{
+  "name": "Urban Social Starvation",
+  "short_name": "USS",
+  "description": "Offline-first social connection app for real-world meetups.",
+  "id": "/",
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#4a90e2",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

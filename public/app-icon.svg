@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Urban Social Starvation">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a90e2"/>
+      <stop offset="100%" stop-color="#50e3c2"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <circle cx="180" cy="190" r="58" fill="#ffffff" fill-opacity="0.92"/>
+  <circle cx="332" cy="190" r="58" fill="#ffffff" fill-opacity="0.92"/>
+  <path d="M141 326c17-45 57-73 115-73s98 28 115 73" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="34"/>
+  <path d="M214 180c10-18 25-27 42-27 16 0 31 9 41 27" fill="none" stroke="#4a90e2" stroke-linecap="round" stroke-width="16"/>
+</svg>

@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  uss-app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - SQLITE_DB_PATH=/usr/src/app/data/database.sqlite
+    volumes:
+      - uss-data:/usr/src/app/data
+    restart: unless-stopped
+
+volumes:
+  uss-data:

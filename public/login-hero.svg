@@ -1,0 +1,82 @@
+<svg width="960" height="760" viewBox="0 0 960 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="106" y1="58" x2="808" y2="694" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EFF6FF"/>
+      <stop offset="0.48" stop-color="#F7FBF9"/>
+      <stop offset="1" stop-color="#FFF5E8"/>
+    </linearGradient>
+    <linearGradient id="card" x1="209" y1="184" x2="751" y2="578" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#F7FBFF" stop-opacity="0.88"/>
+    </linearGradient>
+    <linearGradient id="peach" x1="196" y1="105" x2="748" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFDCCB"/>
+      <stop offset="1" stop-color="#FFCFA6"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="456" y1="294" x2="553" y2="585" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BAEF5"/>
+      <stop offset="1" stop-color="#497ED7"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="612" y1="314" x2="667" y2="528" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#91E8D2"/>
+      <stop offset="1" stop-color="#5DCDB1"/>
+    </linearGradient>
+    <filter id="blur1" x="0" y="0" width="960" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+    <filter id="shadow" x="131" y="131" width="698" height="476" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#6D8FBC" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="760" rx="44" fill="url(#bg)"/>
+
+  <g filter="url(#blur1)" opacity="0.75">
+    <circle cx="190" cy="170" r="92" fill="#D9EAFF"/>
+    <circle cx="801" cy="149" r="98" fill="#FFE1C8"/>
+    <circle cx="796" cy="611" r="120" fill="#DDF6EC"/>
+  </g>
+
+  <rect x="166" y="166" width="628" height="406" rx="34" fill="url(#card)" stroke="white" stroke-opacity="0.72" filter="url(#shadow)"/>
+
+  <rect x="216" y="226" width="204" height="126" rx="22" fill="#F4F8FD"/>
+  <rect x="244" y="255" width="86" height="13" rx="6.5" fill="#7BAEF5" fill-opacity="0.38"/>
+  <rect x="244" y="282" width="144" height="12" rx="6" fill="#B8CFEA"/>
+  <rect x="244" y="307" width="110" height="12" rx="6" fill="#D6E2EF"/>
+  <circle cx="364" cy="259" r="24" fill="#FFF0E5"/>
+  <path d="M342 311C342 293.327 356.327 279 374 279H382C399.673 279 414 293.327 414 311V352H342V311Z" fill="url(#mint)"/>
+
+  <path d="M528 531C473.333 531 429 486.667 429 432V428C429 373.333 473.333 329 528 329C582.667 329 627 373.333 627 428V432C627 486.667 582.667 531 528 531Z" fill="#EEF5FF"/>
+  <rect x="317" y="454" width="356" height="18" rx="9" fill="#D5E3F3"/>
+
+  <ellipse cx="470" cy="461" rx="76" ry="87" fill="url(#blue)"/>
+  <ellipse cx="600" cy="451" rx="72" ry="83" fill="url(#mint)"/>
+
+  <circle cx="472" cy="338" r="43" fill="#FFD9C6"/>
+  <circle cx="602" cy="333" r="41" fill="#FFD9C6"/>
+
+  <path d="M438 344C438 316.386 460.386 294 488 294H498C525.614 294 548 316.386 548 344V396H438V344Z" fill="#35598C"/>
+  <path d="M566 343C566 314.833 588.833 292 617 292H620C648.167 292 671 314.833 671 343V391H566V343Z" fill="#4B8077"/>
+
+  <path d="M414 444C414 407.549 443.549 378 480 378H482C518.451 378 548 407.549 548 444V507H414V444Z" fill="url(#blue)"/>
+  <path d="M533 438C533 403.206 561.206 375 596 375H607C641.794 375 670 403.206 670 438V502H533V438Z" fill="url(#mint)"/>
+
+  <rect x="497" y="410" width="54" height="64" rx="18" transform="rotate(14 497 410)" fill="#F7FAFF"/>
+  <rect x="507" y="420" width="34" height="7" rx="3.5" transform="rotate(14 507 420)" fill="#C9D8EA"/>
+  <rect x="509" y="435" width="24" height="7" rx="3.5" transform="rotate(14 509 435)" fill="#DCE7F3"/>
+
+  <path d="M639 468C639 452.536 651.536 440 667 440H683C698.464 440 711 452.536 711 468V478C711 493.464 698.464 506 683 506H667C651.536 506 639 493.464 639 478V468Z" fill="#FFF4E9"/>
+  <path d="M692 466C692 457.716 698.716 451 707 451H711V492H707C698.716 492 692 485.284 692 477V466Z" fill="#FFF4E9"/>
+
+  <path d="M766 250C766 234.536 778.536 222 794 222H835C850.464 222 863 234.536 863 250V271C863 286.464 850.464 299 835 299H794C778.536 299 766 286.464 766 271V250Z" fill="white" fill-opacity="0.9"/>
+  <text x="786" y="263" fill="#4A90E2" font-family="Outfit, sans-serif" font-size="20" font-weight="700">Seen</text>
+
+  <path d="M110 433C110 417.536 122.536 405 138 405H188C203.464 405 216 417.536 216 433V454C216 469.464 203.464 482 188 482H138C122.536 482 110 469.464 110 454V433Z" fill="white" fill-opacity="0.9"/>
+  <text x="131" y="447" fill="#58B89C" font-family="Outfit, sans-serif" font-size="20" font-weight="700">Heard</text>
+
+  <path d="M726 548C726 532.536 738.536 520 754 520H823C838.464 520 851 532.536 851 548V569C851 584.464 838.464 597 823 597H754C738.536 597 726 584.464 726 569V548Z" fill="white" fill-opacity="0.9"/>
+  <text x="746" y="562" fill="#C78852" font-family="Outfit, sans-serif" font-size="20" font-weight="700">Calm</text>
+
+  <path d="M200 593C200 574.222 215.222 559 234 559H400C418.778 559 434 574.222 434 593V606C434 624.778 418.778 640 400 640H234C215.222 640 200 624.778 200 606V593Z" fill="url(#peach)" fill-opacity="0.72"/>
+  <text x="234" y="598" fill="#35506F" font-family="Outfit, sans-serif" font-size="28" font-weight="700">real connection over noise</text>
+</svg>

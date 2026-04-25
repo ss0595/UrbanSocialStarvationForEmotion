@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" class="auth-pending">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="USS">
+    <title>Matching Lounge | Urban Social Starvation</title>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg">
+    <link rel="apple-touch-icon" href="/app-icon.svg">
+    <script>
+        if (localStorage.getItem('uss_token')) {
+            document.documentElement.classList.remove('auth-pending');
+            document.documentElement.classList.add('auth-ready');
+        } else {
+            window.location.replace('/login.html');
+        }
+    </script>
+    <style>
+        html.auth-pending body {
+            visibility: hidden;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="flow-shell">
+        <header class="flow-header">
+            <div>
+                <p class="step-badge">Step 3 of 3</p>
+                <h1>Your match space</h1>
+                <p class="flow-subtitle">We search, suggest, and help you meet offline. No endless scrolling required.</p>
+            </div>
+            <div class="flow-actions">
+                <a href="/index.html" class="btn-secondary">Edit Profile</a>
+                <a href="/login.html" class="btn-secondary" onclick="logout(event)">Logout</a>
+            </div>
+        </header>
+
+        <main class="flow-grid matching-grid">
+            <section class="flow-main-column">
+                <section class="glass-card flow-card">
+                    <div id="loading-state" class="status-card">
+                        <div class="spinner"></div>
+                        <h2>Finding a good human fit</h2>
+                        <p id="matching-status-copy">You can leave this page open for a moment, but the goal is still a real-world meetup, not more screen time.</p>
+                    </div>
+
+                    <div id="match-result" class="hidden match-result-card">
+                        <div class="result-topline">
+                            <span id="match-format-badge" class="mini-badge">Coffee Chat</span>
+                            <span class="mini-badge soft-badge">Ready for offline connection</span>
+                        </div>
+                        <h3>Match approved</h3>
+                        <p>You matched with <strong id="match-name"></strong>.</p>
+                        <p id="match-summary">Shared interests and aligned energy made this match click.</p>
+                        <div class="meeting-details">
+                            <p><span>Shared interest</span> <strong id="match-interest"></strong></p>
+                            <p><span>Location</span> <strong id="match-place"></strong></p>
+                            <p><span>Time</span> <strong id="match-time"></strong></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Guided first contact</h2>
+                        <p class="flow-copy">A little structure makes real connection easier.</p>
+                    </div>
+                    <div class="prompt-card">
+                        <p id="icebreaker-text">What is one small thing that made your week better?</p>
+                        <button type="button" id="refresh-prompt-btn" class="btn-secondary">New prompt</button>
+                    </div>
+                    <div class="micro-actions-grid">
+                        <div class="mini-note">
+                            <strong>1-on-1 first</strong>
+                            <span>Start small before joining any room or group.</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>Audio optional</strong>
+                            <span>Text first, then decide if voice feels comfortable.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Offline plan</h2>
+                        <p class="flow-copy">Choose how long you want the first meet to feel.</p>
+                    </div>
+                    <div id="timer-options" class="choice-grid compact-choice-grid">
+                        <button type="button" class="choice-chip" data-setting-group="timer" data-setting-value="15">15 min</button>
+                        <button type="button" class="choice-chip" data-setting-group="timer" data-setting-value="25">25 min</button>
+                        <button type="button" class="choice-chip" data-setting-group="timer" data-setting-value="40">40 min</button>
+                    </div>
+                    <p id="offline-plan-copy" class="flow-copy highlight-copy">Keep the first meetup light. A short coffee or walk is enough.</p>
+                </section>
+            </section>
+
+            <aside class="flow-sidebar">
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Your live profile</h2>
+                    </div>
+                    <div class="summary-list">
+                        <div class="summary-row">
+                            <span>Name</span>
+                            <strong id="summary-name">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Email</span>
+                            <strong id="summary-email">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Mood</span>
+                            <strong id="summary-mood">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Intent</span>
+                            <strong id="summary-intent">-</strong>
+                        </div>
+                        <div class="summary-row summary-row-stack">
+                            <span>Interests</span>
+                            <div id="summary-interests" class="pill-list"></div>
+                        </div>
+                        <div class="summary-row summary-row-stack">
+                            <span>Personality</span>
+                            <div id="summary-personality" class="pill-list"></div>
+                        </div>
+                        <div class="summary-row summary-row-stack">
+                            <span>Availability</span>
+                            <div id="summary-availability" class="pill-list"></div>
+                        </div>
+                        <div class="summary-row summary-row-stack">
+                            <span>Offline styles</span>
+                            <div id="summary-connection-types" class="pill-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Micro-communities</h2>
+                        <p class="flow-copy">Small topic rooms. Never giant noisy groups.</p>
+                    </div>
+                    <div id="community-suggestions" class="community-stack"></div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Gentle notifications</h2>
+                        <p class="flow-copy">Only what supports connection.</p>
+                    </div>
+                    <div id="notification-options" class="choice-grid compact-choice-grid">
+                        <button type="button" class="choice-chip" data-setting-group="notification" data-setting-value="mood-match">Mood match only</button>
+                        <button type="button" class="choice-chip" data-setting-group="notification" data-setting-value="reply-only">Replies only</button>
+                        <button type="button" class="choice-chip" data-setting-group="notification" data-setting-value="quiet-mode">Quiet mode</button>
+                    </div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Safety controls</h2>
+                    </div>
+                    <div class="mini-note-stack">
+                        <div class="mini-note">
+                            <strong>Anonymous mode</strong>
+                            <span id="anonymous-status">Visible</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>Block or report</strong>
+                            <span>Always available before or after a meetup.</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>AI moderation</strong>
+                            <span>Flag harmful behavior early.</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="/pwa.js"></script>
+</body>
+</html>

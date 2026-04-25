@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="USS">
+    <title>Urban Social Starvation | For Emotions</title>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg">
+    <link rel="apple-touch-icon" href="/app-icon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:
+                calc(1rem + env(safe-area-inset-top, 0px))
+                calc(1rem + env(safe-area-inset-right, 0px))
+                calc(1rem + env(safe-area-inset-bottom, 0px))
+                calc(1rem + env(safe-area-inset-left, 0px));
+            background:
+                radial-gradient(circle at top left, rgba(133, 179, 245, 0.26), transparent 24rem),
+                radial-gradient(circle at bottom right, rgba(255, 214, 180, 0.3), transparent 22rem),
+                linear-gradient(145deg, #edf5ff 0%, #f5fbf7 54%, #fff8ef 100%);
+        }
+        .login-shell {
+            width: 100%;
+            max-width: 1120px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.85fr);
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+        .visual-panel {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 680px;
+            padding: 2rem;
+            background:
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.78), transparent 16rem),
+                linear-gradient(165deg, rgba(255, 255, 255, 0.86), rgba(248, 252, 255, 0.72));
+        }
+        .visual-panel::before {
+            content: "";
+            position: absolute;
+            inset: auto -10% -18% auto;
+            width: 18rem;
+            height: 18rem;
+            background: radial-gradient(circle, rgba(80, 227, 194, 0.22), transparent 68%);
+            pointer-events: none;
+        }
+        .visual-copy-block,
+        .visual-footer {
+            position: relative;
+            z-index: 1;
+        }
+        .visual-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(74, 144, 226, 0.12);
+            color: var(--primary-blue);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .visual-title {
+            margin: 1rem 0 0.85rem;
+            font-size: clamp(2.4rem, 5vw, 4.3rem);
+            line-height: 1.05;
+            color: #243a55;
+        }
+        .visual-copy {
+            max-width: 31rem;
+            margin: 0;
+            color: #61758b;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .visual-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.3rem;
+        }
+        .visual-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.58rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            color: #46627f;
+            font-size: 0.92rem;
+            font-weight: 600;
+            box-shadow: 0 12px 28px rgba(98, 133, 171, 0.08);
+        }
+        .visual-image-wrap {
+            position: relative;
+            z-index: 1;
+            margin: 2rem 0;
+            padding: 1rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            box-shadow: 0 18px 40px rgba(91, 122, 160, 0.12);
+        }
+        .visual-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+        }
+        .visual-quote {
+            margin: 0;
+            color: #3d5774;
+            font-family: var(--font-heading);
+            font-size: 1.32rem;
+            line-height: 1.5;
+        }
+        .visual-subquote {
+            margin: 0.55rem 0 0;
+            color: #71839a;
+            font-size: 0.96rem;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 520px;
+            margin-left: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .brand-kicker {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 0.9rem;
+            color: var(--primary-blue);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .hero-copy {
+            margin: 0 auto 1.35rem;
+            max-width: 28rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--glass-border);
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: var(--transition-smooth);
+        }
+        .tab.active {
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--primary-blue);
+            margin-bottom: -2px;
+        }
+        .back-link {
+            display: block;
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.25rem;
+            }
+            .tab {
+                padding: 0.85rem 0.5rem;
+                font-size: 0.95rem;
+            }
+        }
+        @media (max-width: 980px) {
+            .login-shell {
+                grid-template-columns: 1fr;
+            }
+            .visual-panel {
+                min-height: auto;
+            }
+            .login-card {
+                max-width: none;
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 640px) {
+            .visual-panel {
+                padding: 1.25rem;
+            }
+            .visual-title {
+                font-size: clamp(2rem, 9vw, 3rem);
+            }
+            .visual-copy,
+            .visual-quote {
+                font-size: 1rem;
+            }
+            .visual-pill-row {
+                gap: 0.55rem;
+            }
+            .visual-pill {
+                font-size: 0.84rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-shell">
+            <section class="glass-card visual-panel">
+                <div class="visual-copy-block">
+                    <span class="visual-tag">Urban Social Starvation</span>
+                    <h1 class="visual-title">A softer place for the emotions people usually carry alone.</h1>
+                    <p class="visual-copy">Built for calm conversation, emotional honesty, and real-world connection that moves beyond the screen.</p>
+                    <div class="visual-pill-row">
+                        <span class="visual-pill">Mood-first matching</span>
+                        <span class="visual-pill">Gentle pacing</span>
+                        <span class="visual-pill">Offline connection</span>
+                    </div>
+                </div>
+
+                <div class="visual-image-wrap">
+                    <img src="/login-hero.svg" alt="A calm illustration of people meeting, being seen, and connecting in a soothing space." class="visual-image">
+                </div>
+
+                <div class="visual-footer">
+                    <p class="visual-quote">“The goal is not more screen time. The goal is to feel seen, heard, and a little less alone.”</p>
+                    <p class="visual-subquote">Start with your emotional state, then move toward a real person and a real plan.</p>
+                </div>
+            </section>
+
+            <div class="glass-card login-card">
+                <div class="brand-kicker">Urban Social Starvation</div>
+                <h2 style="text-align: center; margin-bottom: 0.85rem;">For emotions that need real people</h2>
+                <p class="hero-copy">A quieter social space built around mood, intent, and offline human connection instead of endless scrolling.</p>
+                
+                <div class="tabs">
+                    <div class="tab active" id="tab-user" onclick="switchTab('user')">User Login</div>
+                    <div class="tab" id="tab-admin" onclick="switchTab('admin')">Admin Login</div>
+                </div>
+
+                <!-- User Login Form -->
+                <div id="login-form-user">
+                    <p style="text-align: center; margin-bottom: 1rem; font-size: 0.95rem; color: var(--text-light);">Log in to start from your emotional state, build your details, and move toward a real-world match.</p>
+                    
+                    <div id="google-button-container" style="display: flex; justify-content: center; margin-top: 1.5rem;"></div>
+                </div>
+
+                <!-- Admin Login Form -->
+                <form id="login-form-admin" class="hidden">
+                    <div class="form-group">
+                        <input type="email" id="admin-email" placeholder="Admin Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="admin-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; background: linear-gradient(135deg, #e74c3c, #c0392b);">Login as Admin</button>
+                </form>
+
+                <div id="login-error" class="hidden" style="color: #e74c3c; text-align: center; margin-top: 1rem; font-weight: 600;"></div>
+
+                <p class="back-link">Login first, then we’ll guide you from emotions to profile details to matching.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        const LOOPBACK_ALIASES = new Set(['127.0.0.1', '0.0.0.0', '::1', '[::1]']);
+        const PRIVATE_NETWORK_HOST_RE = /^(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3})$/;
+
+        let currentRole = 'user';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('uss_token')) {
+                window.location.replace('/index.html');
+                return;
+            }
+
+            const redirectError = new URLSearchParams(window.location.search).get('error');
+            if (redirectError) {
+                showLoginError(redirectError);
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            checkBackendReachability();
+            initializeGoogleSignIn(Boolean(redirectError));
+            document.getElementById('login-form-admin').addEventListener('submit', handleAdminLogin);
+        });
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.innerText = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function getBackendUnavailableMessage() {
+            const isLocalHost = ['localhost', '127.0.0.1', '0.0.0.0', '::1', '[::1]'].includes(window.location.hostname);
+            if (isLocalHost) {
+                return 'Backend is not running. Start the app server with npm start, then try admin login again.';
+            }
+
+            return 'Could not reach the server. Please try again in a moment.';
+        }
+
+        async function checkBackendReachability() {
+            try {
+                const res = await fetch('/api/health', { cache: 'no-store' });
+                if (!res.ok) {
+                    throw new Error('Health check failed');
+                }
+            } catch (error) {
+                showLoginError(getBackendUnavailableMessage());
+            }
+        }
+
+        function hideLoginError() {
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function redirectLoopbackAlias() {
+            if (!LOOPBACK_ALIASES.has(window.location.hostname)) {
+                return false;
+            }
+
+            const localhostUrl = new URL(window.location.href);
+            localhostUrl.hostname = 'localhost';
+            window.location.replace(localhostUrl.toString());
+            return true;
+        }
+
+        function maybeShowOriginHint(localhostOrigin) {
+            const hostname = window.location.hostname;
+            if (hostname === 'localhost' || !PRIVATE_NETWORK_HOST_RE.test(hostname)) {
+                return;
+            }
+
+            showLoginError(`Google Sign-In usually needs the exact authorized origin. Open this page from ${localhostOrigin} instead of ${window.location.origin}.`);
+        }
+
+        async function waitForGoogleIdentityServices(timeoutMs = 5000) {
+            const deadline = Date.now() + timeoutMs;
+
+            while (Date.now() < deadline) {
+                if (window.google?.accounts?.id) {
+                    return window.google.accounts.id;
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            throw new Error('Google Sign-In library did not finish loading.');
+        }
+
+        async function initializeGoogleSignIn(preserveExistingError = false) {
+            if (redirectLoopbackAlias()) {
+                return;
+            }
+
+            if (!preserveExistingError) {
+                hideLoginError();
+            }
+
+            try {
+                const res = await fetch('/api/config');
+                if (!res.ok) {
+                    throw new Error('Could not load login configuration.');
+                }
+
+                const data = await res.json();
+                maybeShowOriginHint(data.localhostOrigin);
+
+                if (!data.googleClientId) {
+                    throw new Error('Google login is not configured on the server.');
+                }
+
+                const googleIdentity = await waitForGoogleIdentityServices();
+                const buttonContainer = document.getElementById('google-button-container');
+                buttonContainer.replaceChildren();
+
+                googleIdentity.initialize({
+                    client_id: data.googleClientId,
+                    callback: handleGoogleCredentialResponse
+                });
+
+                googleIdentity.renderButton(
+                    buttonContainer,
+                    { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "signin_with", logo_alignment: "left" }
+                );
+            } catch (err) {
+                const fallbackMessage = err instanceof TypeError ? getBackendUnavailableMessage() : (err.message || 'Unable to load Google Sign-In.');
+                showLoginError(fallbackMessage);
+                console.error('Could not initialize Google Sign-In', err);
+            }
+        }
+
+        function switchTab(role) {
+            currentRole = role;
+            document.getElementById('tab-user').classList.toggle('active', role === 'user');
+            document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
+            
+            document.getElementById('login-form-user').classList.toggle('hidden', role !== 'user');
+            document.getElementById('login-form-admin').classList.toggle('hidden', role !== 'admin');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        async function handleGoogleCredentialResponse(response) {
+            hideLoginError();
+
+            if (!response?.credential) {
+                showLoginError('Google did not return a login credential. Please try again.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ credential: response.credential })
+                });
+
+                const data = await res.json().catch(() => ({}));
+                
+                if (res.ok) {
+                    localStorage.setItem('uss_token', data.token);
+                    localStorage.removeItem('uss_match_request');
+                    if (data.user) {
+                        localStorage.setItem('uss_user_profile', JSON.stringify(data.user));
+                    }
+                    alert(data.message + '! Redirecting to home...');
+                    window.location.href = 'index.html';
+                } else {
+                    showLoginError(data.error || 'Google login failed');
+                }
+            } catch (err) {
+                showLoginError(getBackendUnavailableMessage());
+            }
+        }
+
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-password').value;
+            hideLoginError();
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, role: 'admin' })
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    localStorage.setItem('uss_token', data.token);
+                    window.location.href = 'admin.html';
+                } else {
+                    showLoginError(data.error || 'Login failed');
+                }
+            } catch (err) {
+                showLoginError(getBackendUnavailableMessage());
+            }
+        }
+    </script>
+    <script src="/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" class="auth-pending">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="USS">
+    <title>Your Profile | Urban Social Starvation</title>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg">
+    <link rel="apple-touch-icon" href="/app-icon.svg">
+    <script>
+        if (localStorage.getItem('uss_token')) {
+            document.documentElement.classList.remove('auth-pending');
+            document.documentElement.classList.add('auth-ready');
+        } else {
+            window.location.replace('/login.html');
+        }
+    </script>
+    <style>
+        html.auth-pending body {
+            visibility: hidden;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="flow-shell">
+        <header class="flow-header">
+            <div>
+                <p class="step-badge">Step 2 of 3</p>
+                <h1>Build your real-world profile</h1>
+                <p class="flow-subtitle">Tap your vibe, your mood, and how you want to connect. We use this to create an offline-first match.</p>
+            </div>
+            <a href="/login.html" class="btn-secondary" onclick="logout(event)">Logout</a>
+        </header>
+
+        <main class="flow-grid profile-flow-grid">
+            <section class="glass-card flow-card profile-card">
+                <div class="section-heading">
+                    <h2>Fast setup</h2>
+                    <p class="flow-copy">This should take about two minutes, not twenty.</p>
+                </div>
+
+                <form id="details-form" class="details-stack">
+                    <div class="dual-inputs">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                    </div>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Interests</h3>
+                                <p>Books, fitness, tech, coffee, film, travel, music.</p>
+                            </div>
+                            <span class="mini-badge">Shared interests matter most</span>
+                        </div>
+                        <div class="inline-input-action">
+                            <input type="text" id="interest-input" placeholder="Add an interest">
+                            <button type="button" id="add-interest-btn" class="btn-secondary">Add</button>
+                        </div>
+                        <div id="interest-pill-list" class="pill-list editable-pill-list"></div>
+                        <div class="choice-grid compact-choice-grid">
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Books">Books</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Fitness">Fitness</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Tech">Tech</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Music">Music</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Movies">Movies</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Travel">Travel</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Design">Design</button>
+                            <button type="button" class="choice-chip" data-choice-group="interests" data-choice-action="add" data-choice-value="Startups">Startups</button>
+                        </div>
+                    </section>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Personality tags</h3>
+                                <p>Choose what feels most like you.</p>
+                            </div>
+                        </div>
+                        <div class="choice-grid">
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Introvert">Introvert</button>
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Extrovert">Extrovert</button>
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Calm">Calm</button>
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Energetic">Energetic</button>
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Thoughtful">Thoughtful</button>
+                            <button type="button" class="choice-chip" data-choice-group="personalityTags" data-choice-mode="multiple" data-choice-value="Spontaneous">Spontaneous</button>
+                        </div>
+                    </section>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Daily mood</h3>
+                                <p>We use this for emotional check-ins and better pairing.</p>
+                            </div>
+                        </div>
+                        <div class="choice-grid card-choice-grid">
+                            <button type="button" class="choice-card" data-choice-group="mood" data-choice-mode="single" data-choice-value="Happy">
+                                <strong>Happy</strong>
+                                <span>Open to light energy</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="mood" data-choice-mode="single" data-choice-value="Stressed">
+                                <strong>Stressed</strong>
+                                <span>Need calm company</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="mood" data-choice-mode="single" data-choice-value="Lonely">
+                                <strong>Lonely</strong>
+                                <span>Want human warmth</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="mood" data-choice-mode="single" data-choice-value="Neutral">
+                                <strong>Neutral</strong>
+                                <span>Open and flexible</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Intent mode</h3>
+                                <p>No random chatting. Pick what you need.</p>
+                            </div>
+                        </div>
+                        <div class="choice-grid card-choice-grid">
+                            <button type="button" class="choice-card" data-choice-group="intent" data-choice-mode="single" data-choice-value="I want to talk">
+                                <strong>I want to talk</strong>
+                                <span>You want to open up.</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="intent" data-choice-mode="single" data-choice-value="I want to listen">
+                                <strong>I want to listen</strong>
+                                <span>You can hold space.</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="intent" data-choice-mode="single" data-choice-value="I want advice">
+                                <strong>I want advice</strong>
+                                <span>You want perspective.</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Availability</h3>
+                                <p>Meetups only happen between 10 AM and 7 PM.</p>
+                            </div>
+                        </div>
+                        <div class="choice-grid compact-choice-grid">
+                            <button type="button" class="choice-chip" data-choice-group="availability" data-choice-mode="multiple" data-choice-value="Morning">Morning</button>
+                            <button type="button" class="choice-chip" data-choice-group="availability" data-choice-mode="multiple" data-choice-value="Midday">Midday</button>
+                            <button type="button" class="choice-chip" data-choice-group="availability" data-choice-mode="multiple" data-choice-value="Afternoon">Afternoon</button>
+                            <button type="button" class="choice-chip" data-choice-group="availability" data-choice-mode="multiple" data-choice-value="Evening">Evening</button>
+                        </div>
+                    </section>
+
+                    <section class="interactive-block">
+                        <div class="block-header">
+                            <div>
+                                <h3>Offline connection type</h3>
+                                <p>Short, real connection outside the app.</p>
+                            </div>
+                        </div>
+                        <div class="choice-grid card-choice-grid">
+                            <button type="button" class="choice-card" data-choice-group="connectionTypes" data-choice-mode="multiple" data-choice-value="Coffee Chat">
+                                <strong>Coffee Chat</strong>
+                                <span>Low pressure, easy first meet.</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="connectionTypes" data-choice-mode="multiple" data-choice-value="Walk">
+                                <strong>Walk</strong>
+                                <span>Move and talk naturally.</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="connectionTypes" data-choice-mode="multiple" data-choice-value="Study Session">
+                                <strong>Study Session</strong>
+                                <span>Great for focused company.</span>
+                            </button>
+                            <button type="button" class="choice-card" data-choice-group="connectionTypes" data-choice-mode="multiple" data-choice-value="Gym Buddy">
+                                <strong>Gym Buddy</strong>
+                                <span>Best for active people.</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <label class="toggle-card">
+                        <input type="checkbox" id="anonymous-mode">
+                        <div>
+                            <strong>Anonymous mode</strong>
+                            <span>Hide your real name until you’re comfortable.</span>
+                        </div>
+                    </label>
+
+                    <button type="submit" class="btn-primary full-width-button">Continue to Matching</button>
+                </form>
+            </section>
+
+            <aside class="flow-sidebar">
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Live community hints</h2>
+                        <p class="flow-copy">Small groups only. Maximum 5 to 10 people.</p>
+                    </div>
+                    <div id="community-preview" class="community-stack"></div>
+                </section>
+
+                <section class="glass-card flow-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Gentle by design</h2>
+                    </div>
+                    <div class="mini-note-stack">
+                        <div class="mini-note">
+                            <strong>No endless feed</strong>
+                            <span>This app should lead you outside, not trap you inside.</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>Safety first</strong>
+                            <span>Anonymous mode, block/report ideas, and structured starts.</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>Real connection</strong>
+                            <span>We prioritize coffee chats, walks, study sessions, and gym meets.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-card flow-card offline-commitment-card">
+                    <p class="step-badge">Offline-first</p>
+                    <h2>Spend less time here</h2>
+                    <p class="flow-copy">Your goal is not to stay in the app. Your goal is to leave with a plan.</p>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="/pwa.js"></script>
+</body>
+</html>

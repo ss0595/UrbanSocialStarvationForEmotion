@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="USS">
+    <title>Admin Dashboard | Urban Social Starvation</title>
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg">
+    <link rel="apple-touch-icon" href="/app-icon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-shell {
+            min-height: 100dvh;
+            padding: 3rem 1.5rem;
+            background:
+                radial-gradient(circle at top left, rgba(74, 144, 226, 0.16), transparent 26rem),
+                radial-gradient(circle at bottom right, rgba(80, 227, 194, 0.16), transparent 24rem),
+                var(--bg-color);
+        }
+        .admin-container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .admin-header h1 {
+            margin: 0.35rem 0 0.75rem;
+            font-size: clamp(2.2rem, 5vw, 3rem);
+        }
+        .admin-header p,
+        .admin-copy {
+            margin: 0;
+            color: var(--text-light);
+        }
+        .admin-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(74, 144, 226, 0.12);
+            color: var(--primary-blue);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .admin-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .admin-top-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .stat-card {
+            padding: 1.15rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+        }
+        .stat-card span {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--text-light);
+            font-size: 0.84rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-card strong {
+            font-size: 2rem;
+            font-family: var(--font-heading);
+            color: var(--text-main);
+        }
+        .admin-status {
+            margin-bottom: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+        .status-success {
+            background: rgba(80, 227, 194, 0.16);
+            color: #147a5d;
+        }
+        .status-error {
+            background: rgba(231, 76, 60, 0.12);
+            color: #c0392b;
+        }
+        .admin-profile-form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+        .admin-profile-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .muted-field {
+            display: block;
+            margin-top: 0.45rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .user-table th,
+        .user-table td {
+            padding: 1rem;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(44, 62, 80, 0.08);
+        }
+        .user-table th {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+        .user-table td strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .table-copy {
+            color: var(--text-light);
+            font-size: 0.92rem;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .status-matched {
+            background: rgba(80, 227, 194, 0.2);
+            color: #147a5d;
+        }
+        .status-waiting {
+            background: rgba(241, 196, 15, 0.2);
+            color: #b7791f;
+        }
+        .danger-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.75rem;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.18);
+        }
+        .danger-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .table-pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .table-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.38rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary-blue);
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        @media (max-width: 900px) {
+            .admin-top-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 640px) {
+            .admin-shell {
+                padding: 1.25rem 1rem;
+            }
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .user-table {
+                min-width: 900px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-shell">
+        <div class="admin-container admin-grid">
+            <header class="admin-header">
+                <div>
+                    <span class="admin-badge">Urban Social Starvation Admin</span>
+                    <h1>Care for the emotional layer</h1>
+                    <p class="admin-copy">Manage the human side of the app: your admin identity, active community members, and who should stay in the space.</p>
+                </div>
+                <button type="button" onclick="logout()" class="btn-secondary">Logout</button>
+            </header>
+
+            <div id="admin-status" class="admin-status hidden"></div>
+
+            <section class="admin-top-grid">
+                <article class="glass-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Admin profile</h2>
+                        <p class="admin-copy">Shape the voice behind the care layer of the app.</p>
+                    </div>
+
+                    <form id="admin-profile-form" class="admin-profile-form">
+                        <div class="form-group">
+                            <label for="admin-display-name">Display name</label>
+                            <input type="text" id="admin-display-name" placeholder="Care Admin" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-title">Role title</label>
+                            <input type="text" id="admin-title" placeholder="Community Care Admin" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-emotional-focus">Emotional focus</label>
+                            <input type="text" id="admin-emotional-focus" placeholder="Emotion-based matching and safer connection">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-note">Admin note</label>
+                            <textarea id="admin-note" placeholder="What kind of emotional support should this space stand for?"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-email-readonly">Admin email</label>
+                            <input type="text" id="admin-email-readonly" readonly>
+                            <span class="muted-field">This comes from the logged-in admin account.</span>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Save Admin Profile</button>
+                    </form>
+                </article>
+
+                <article class="glass-card">
+                    <div class="section-heading compact-heading">
+                        <h2>Space snapshot</h2>
+                        <p class="admin-copy">Quick signals from the community right now.</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span>Total people</span>
+                            <strong id="stat-total-users">0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <span>Currently matched</span>
+                            <strong id="stat-matched-users">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="mini-note-stack" style="margin-top: 1.5rem;">
+                        <div class="mini-note">
+                            <strong>Admin care principle</strong>
+                            <span>Keep the app emotionally supportive, calm, and pointed toward offline connection.</span>
+                        </div>
+                        <div class="mini-note">
+                            <strong>User removal</strong>
+                            <span>If someone should no longer stay in the space, remove them directly from the user table below.</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="glass-card">
+                <div class="section-heading compact-heading">
+                    <h2>Registered users</h2>
+                    <p class="admin-copy">Review the people in the system and remove anyone who should no longer remain active.</p>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Emotional state</th>
+                                <th>Interests</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list">
+                            <tr><td colspan="5" style="text-align: center;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        if (!localStorage.getItem('uss_token')) {
+            window.location.href = 'login.html';
+        }
+
+        const adminState = {
+            users: [],
+            stats: {
+                totalUsers: 0,
+                matchedUsers: 0
+            }
+        };
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function authHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('uss_token')}`
+            };
+        }
+
+        function setStatus(message, type = 'success') {
+            const status = document.getElementById('admin-status');
+            status.textContent = message;
+            status.className = `admin-status ${type === 'error' ? 'status-error' : 'status-success'}`;
+        }
+
+        function fillAdminProfile(profile) {
+            document.getElementById('admin-display-name').value = profile.displayName || '';
+            document.getElementById('admin-title').value = profile.title || '';
+            document.getElementById('admin-emotional-focus').value = profile.emotionalFocus || '';
+            document.getElementById('admin-note').value = profile.note || '';
+            document.getElementById('admin-email-readonly').value = profile.email || '';
+        }
+
+        function renderStats(stats) {
+            document.getElementById('stat-total-users').textContent = stats.totalUsers || 0;
+            document.getElementById('stat-matched-users').textContent = stats.matchedUsers || 0;
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('user-list');
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No users registered yet.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map((user) => {
+                const interests = Array.isArray(user.interests) && user.interests.length
+                    ? user.interests.map((interest) => `<span class="table-pill">${escapeHtml(interest)}</span>`).join('')
+                    : '<span class="table-copy">No interests added</span>';
+
+                const matchDetails = user.matched && user.matchDetails
+                    ? `Matched with <strong>${escapeHtml(user.matchDetails.partnerName || 'Pending')}</strong><span class="table-copy">@ ${escapeHtml(user.matchDetails.meetingPlace || 'TBD')}</span>`
+                    : '<span class="table-copy">Waiting for a match</span>';
+
+                return `
+                    <tr>
+                        <td>
+                            <strong>${escapeHtml(user.name)}</strong>
+                            <span class="table-copy">${escapeHtml(user.email)}</span>
+                        </td>
+                        <td>
+                            <strong>${escapeHtml(user.mood || 'Neutral')}</strong>
+                            <span class="table-copy">${escapeHtml(user.intent || 'I want to talk')}</span>
+                        </td>
+                        <td>
+                            <div class="table-pill-list">${interests}</div>
+                        </td>
+                        <td>
+                            <span class="status-badge ${user.matched ? 'status-matched' : 'status-waiting'}">
+                                ${user.matched ? 'Matched' : 'Waiting'}
+                            </span>
+                            <div style="margin-top: 0.65rem;">${matchDetails}</div>
+                        </td>
+                        <td>
+                            <button
+                                type="button"
+                                class="danger-button"
+                                data-remove-email="${escapeHtml(user.email)}"
+                                data-remove-name="${escapeHtml(user.name)}"
+                            >
+                                Remove User
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            tbody.querySelectorAll('[data-remove-email]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    removeUser(button.dataset.removeEmail, button.dataset.removeName);
+                });
+            });
+        }
+
+        async function loadDashboard() {
+            try {
+                const [dashboardRes, profileRes] = await Promise.all([
+                    fetch('/api/admin/dashboard', { headers: { 'Authorization': `Bearer ${localStorage.getItem('uss_token')}` } }),
+                    fetch('/api/admin/profile', { headers: { 'Authorization': `Bearer ${localStorage.getItem('uss_token')}` } })
+                ]);
+
+                if (!dashboardRes.ok || !profileRes.ok) {
+                    throw new Error('Failed to load admin data');
+                }
+
+                const dashboardData = await dashboardRes.json();
+                const profileData = await profileRes.json();
+
+                adminState.users = dashboardData.users || [];
+                adminState.stats = dashboardData.stats || { totalUsers: 0, matchedUsers: 0 };
+
+                renderStats(adminState.stats);
+                renderUsers(adminState.users);
+                fillAdminProfile(profileData.profile || {});
+            } catch (error) {
+                console.error(error);
+                alert('Failed to load admin dashboard. Please log in again.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        async function saveAdminProfile(event) {
+            event.preventDefault();
+
+            try {
+                const res = await fetch('/api/admin/profile', {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify({
+                        displayName: document.getElementById('admin-display-name').value,
+                        title: document.getElementById('admin-title').value,
+                        emotionalFocus: document.getElementById('admin-emotional-focus').value,
+                        note: document.getElementById('admin-note').value
+                    })
+                });
+
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    throw new Error(data.error || 'Failed to save admin profile');
+                }
+
+                fillAdminProfile(data.profile || {});
+                setStatus(data.message || 'Admin profile saved');
+            } catch (error) {
+                console.error(error);
+                setStatus(error.message || 'Failed to save admin profile', 'error');
+            }
+        }
+
+        async function removeUser(email, name) {
+            const shouldRemove = window.confirm(`Remove ${name} from the app? This will delete their existing user record.`);
+            if (!shouldRemove) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(email)}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('uss_token')}` }
+                });
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Failed to remove user');
+                }
+
+                setStatus(data.message || 'User removed successfully');
+                await loadDashboard();
+            } catch (error) {
+                console.error(error);
+                setStatus(error.message || 'Failed to remove user', 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('uss_token');
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('admin-profile-form').addEventListener('submit', saveAdminProfile);
+        loadDashboard();
+    </script>
+    <script src="/pwa.js"></script>
+</body>
+</html>
